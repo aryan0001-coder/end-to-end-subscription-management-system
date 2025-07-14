@@ -1,0 +1,8 @@
+{
+  "extends": "./node_modules/react-scripts/tsconfig.json",
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "jsx": "react-jsx"
+  },
+  "include": ["src"]
+}
