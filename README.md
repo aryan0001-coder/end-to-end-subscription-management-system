@@ -89,7 +89,10 @@ Features
 
 <img width="1844" height="930" alt="refund" src="https://github.com/user-attachments/assets/2aaa485b-4924-48c7-a74e-b0ea1aa058a7" />
 
+<img width="1807" height="869" alt="downgrade" src="https://github.com/user-attachments/assets/bcb9a398-7114-4972-ad1b-abc50ac17d55" />
+
 ## Project setup
+
 
 
 ```bash
