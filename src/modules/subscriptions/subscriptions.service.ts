@@ -194,7 +194,6 @@ export class SubscriptionsService {
     });
     if (!subscription) throw new NotFoundException('Subscription not found');
 
-    // Retrieve the current Stripe subscription
     const stripeSub = await this.stripe.subscriptions.retrieve(
       subscription.stripeSubscriptionId,
     );
@@ -213,14 +212,12 @@ export class SubscriptionsService {
     }
 
     if (!scheduleId) {
-      // No schedule exists, create one
       const schedule = await this.stripe.subscriptionSchedules.create({
         from_subscription: stripeSub.id,
       } as any);
       scheduleId = schedule.id;
     }
 
-    // Update the schedule to add the downgrade phase
     await this.stripe.subscriptionSchedules.update(scheduleId, {
       phases: [
         {
@@ -239,7 +236,6 @@ export class SubscriptionsService {
     });
     if (!plan) throw new NotFoundException('Plan not found');
 
-    // Optionally store the scheduleId and scheduledDowngradeTo in metadata
     subscription.metadata = {
       ...subscription.metadata,
       scheduledDowngradeTo: newPriceId,
