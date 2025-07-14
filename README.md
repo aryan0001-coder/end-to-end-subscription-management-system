@@ -34,6 +34,44 @@ Features
   - Robust Security: DTO validation, global error handling, logging, and CORS.
   - Production-Ready Practices: Environment variable management, logging, and more.
 
+## Project Structure
+
+  - /src         # NestJS backend source code
+  - /frontend    # React frontend source code
+  - /scripts     # Utility scripts (e.g., migrations)
+  - .env         # Environment variables (not committed)
+
+## Running The Backend
+
+ - npm run start:dev
+
+##Running The Frontend
+
+ - npm start
+
+## API Documentation
+
+ - Swagger UI is available at:
+ -  http://localhost:3001/api
+ - Key Endpoints
+ - POST /auth/register — Register a new user
+ - POST /auth/login — Login and receive JWT
+ - GET /auth/me — Get current user info
+ - GET /subscriptions — List all plans
+ - POST /subscriptions — Subscribe to a plan
+ - GET /subscriptions/my-subscriptions — View your subscriptions
+ - POST /webhook — Stripe webhook endpoint
+
+## Stripe Integration
+ - Uses Stripe Elements on the frontend for secure card input.
+ - Backend handles payment intent creation and webhook processing.
+ - Ensure your Stripe keys are set in .env.
+
+
+## Email Notifications
+
+ - Uses Nodemailer with Gmail.
+
 ## Project setup
 
 ```bash
