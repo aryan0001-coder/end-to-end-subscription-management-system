@@ -136,38 +136,12 @@ export class SubscriptionsController {
       body.paymentMethodId,
     );
   }
-
-  /**
-   * Get all subscriptions for the authenticated user
-   */
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @ApiBearerAuth()
-  @Get('my-subscriptions')
-  @ApiOperation({ summary: 'Get all subscriptions for the authenticated user' })
-  @ApiResponse({
-    status: 200,
-    description: 'List of subscriptions.',
-    schema: {
-      example: [
-        {
-          id: 'uuid',
-          stripeSubscriptionId: 'sub_123',
-          plan: { id: 1, name: 'Pro' },
-          status: 'active',
-        },
-      ],
-    },
-  })
-  async getMySubscriptions(@Request() req) {
-    return this.subscriptionsService.getSubscriptionsByUser(req.user.id);
-  }
-
   /**
    * Get a subscription by its internal UUID (users can only access their own subscriptions)
    */
   @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiBearerAuth()
-  @Get(':id')
+  @Get('sub/:id')
   @ApiOperation({
     summary:
       'Get subscription by ID (users can only access their own subscriptions)',
@@ -217,6 +191,31 @@ export class SubscriptionsController {
     }
 
     return subscription;
+  }
+
+  /**
+   * Get all subscriptions for the authenticated user
+   */
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @ApiBearerAuth()
+  @Get('my-subscriptions')
+  @ApiOperation({ summary: 'Get all subscriptions for the authenticated user' })
+  @ApiResponse({
+    status: 200,
+    description: 'List of subscriptions.',
+    schema: {
+      example: [
+        {
+          id: 'uuid',
+          stripeSubscriptionId: 'sub_123',
+          plan: { id: 1, name: 'Pro' },
+          status: 'active',
+        },
+      ],
+    },
+  })
+  async getMySubscriptions(@Request() req) {
+    return this.subscriptionsService.getSubscriptionsByUser(req.user.id);
   }
 
   /**
@@ -333,9 +332,10 @@ export class SubscriptionsController {
     @Body() body: ChangeSubscriptionPlanDto,
     @Request() req,
   ) {
+    console.log('1');
     const subscription =
       await this.subscriptionsService.getSubscriptionById(id);
-
+    console.log('2');
     if (!subscription) {
       throw new Error('Subscription not found');
     }

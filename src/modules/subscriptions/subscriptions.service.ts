@@ -123,7 +123,7 @@ export class SubscriptionsService {
   }
 
   async getSubscriptionById(id: string) {
-    return this.subscriptionRepository.findOne({
+    return await this.subscriptionRepository.findOne({
       where: { id },
       relations: ['user', 'plan'],
     });
@@ -194,31 +194,56 @@ export class SubscriptionsService {
     });
     if (!subscription) throw new NotFoundException('Subscription not found');
 
-    const stripeSubData: Stripe.Subscription =
-      await this.stripe.subscriptions.retrieve(
-        subscription.stripeSubscriptionId,
-      );
-    const itemId = stripeSubData.items.data[0]?.id;
-    if (!itemId) throw new NotFoundException('Subscription item not found');
+    // Retrieve the current Stripe subscription
+    const stripeSub = await this.stripe.subscriptions.retrieve(
+      subscription.stripeSubscriptionId,
+    );
 
-    const stripeSub: Stripe.Subscription =
-      await this.stripe.subscriptions.update(
-        subscription.stripeSubscriptionId,
-        {
-          items: [{ id: itemId, price: newPriceId }],
-          proration_behavior: 'none',
-          cancel_at_period_end: false,
-        },
+    const item = stripeSub.items.data[0] as any;
+    const currentPeriodStart = item.current_period_start;
+    const currentPeriodEnd = item.current_period_end;
+    if (!currentPeriodStart || !currentPeriodEnd)
+      throw new NotFoundException(
+        'Could not determine current period start/end',
       );
+
+    let scheduleId = stripeSub.schedule;
+    if (scheduleId && typeof scheduleId !== 'string') {
+      scheduleId = scheduleId.id;
+    }
+
+    if (!scheduleId) {
+      // No schedule exists, create one
+      const schedule = await this.stripe.subscriptionSchedules.create({
+        from_subscription: stripeSub.id,
+      } as any);
+      scheduleId = schedule.id;
+    }
+
+    // Update the schedule to add the downgrade phase
+    await this.stripe.subscriptionSchedules.update(scheduleId, {
+      phases: [
+        {
+          items: [{ price: item.price.id, quantity: 1 }],
+          start_date: currentPeriodStart,
+          end_date: currentPeriodEnd,
+        },
+        {
+          items: [{ price: newPriceId, quantity: 1 }],
+        },
+      ],
+    } as any);
 
     const plan = await this.planRepository.findOne({
       where: { stripePriceId: newPriceId },
     });
     if (!plan) throw new NotFoundException('Plan not found');
 
+    // Optionally store the scheduleId and scheduledDowngradeTo in metadata
     subscription.metadata = {
       ...subscription.metadata,
       scheduledDowngradeTo: newPriceId,
+      scheduleId: scheduleId,
     };
     return this.subscriptionRepository.save(subscription);
   }
