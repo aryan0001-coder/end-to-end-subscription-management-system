@@ -23,7 +23,16 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Subscription Management System - A full-stack SaaS application for managing user subscriptions, built with Nest (backend), React (frontend), and Stripe for payment processing.
+Features
+
+  - User Authentication: JWT-based registration and login with role-based access control (RBAC).
+  - Subscription Management: Users can subscribe, upgrade, downgrade, or cancel plans.
+  - Stripe Integration: Secure payment flows, webhooks, and plan management.
+  - Admin Panel: Admin endpoints for user and system management.
+  - Email Notifications: Automated emails via Nodemailer.
+  - Robust Security: DTO validation, global error handling, logging, and CORS.
+  - Production-Ready Practices: Environment variable management, logging, and more.
 
 ## Project setup
 
