@@ -72,7 +72,25 @@ Features
 
  - Uses Nodemailer with Gmail.
 
+## Some Working Examples Images
+
+
+<img width="1593" height="678" alt="register" src="https://github.com/user-attachments/assets/f1079d51-62ec-414d-81ed-518426d837f4" />
+
+<img width="1593" height="678" alt="login" src="https://github.com/user-attachments/assets/87754676-61e9-4b55-af00-1df97664ccb7" />
+
+<img width="1719" height="975" alt="login-page" src="https://github.com/user-attachments/assets/ed302ec2-e791-4999-a7f8-ff90abf7e790" />
+
+<img width="1844" height="930" alt="logged-in-page" src="https://github.com/user-attachments/assets/3b08c77d-48ac-458c-a644-f3b9a2aa20a2" />
+
+<img width="1844" height="930" alt="subscription-created" src="https://github.com/user-attachments/assets/368123f7-38a4-4819-987c-210b472f6e6e" />
+
+<img width="1817" height="950" alt="users-table" src="https://github.com/user-attachments/assets/5baf183e-456b-4ef7-8518-213414ff64b1" />
+
+<img width="1844" height="930" alt="refund" src="https://github.com/user-attachments/assets/2aaa485b-4924-48c7-a74e-b0ea1aa058a7" />
+
 ## Project setup
+
 
 ```bash
 $ npm install
