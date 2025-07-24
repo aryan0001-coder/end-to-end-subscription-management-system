@@ -3,8 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@stripe/react-stripe-js": "^3.7.0",
-    "@stripe/stripe-js": "^7.4.0",
     "cra-template-pwa-typescript": "2.0.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
