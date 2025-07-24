@@ -2,6 +2,7 @@ import { Injectable, Logger, OnModuleInit, OnModuleDestroy } from '@nestjs/commo
 import * as mediasoup from 'mediasoup';
 import { Worker, Router } from 'mediasoup/node/lib/types';
 import { mediasoupConfig } from './config/mediasoup.config';
+import { getIceConfiguration } from './config/ice.config';
 
 @Injectable()
 export class MediasoupService implements OnModuleInit, OnModuleDestroy {
@@ -77,11 +78,15 @@ export class MediasoupService implements OnModuleInit, OnModuleDestroy {
         }),
       });
 
+      // Get ICE configuration for client
+      const iceConfiguration = getIceConfiguration();
+
       return {
         id: transport.id,
         iceParameters: transport.iceParameters,
         iceCandidates: transport.iceCandidates,
         dtlsParameters: transport.dtlsParameters,
+        iceServers: iceConfiguration.iceServers, // Add ICE servers for client
         transport,
       };
     } catch (error) {

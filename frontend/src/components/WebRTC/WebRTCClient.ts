@@ -166,6 +166,7 @@ export class WebRTCClient {
             iceParameters: data.iceParameters,
             iceCandidates: data.iceCandidates,
             dtlsParameters: data.dtlsParameters,
+            iceServers: data.iceServers || [], // Use ICE servers from server
           });
 
           this.sendTransport.on('connect', async ({ dtlsParameters }, callback, errback) => {
@@ -225,6 +226,7 @@ export class WebRTCClient {
             iceParameters: data.iceParameters,
             iceCandidates: data.iceCandidates,
             dtlsParameters: data.dtlsParameters,
+            iceServers: data.iceServers || [], // Use ICE servers from server
           });
 
           this.recvTransport.on('connect', async ({ dtlsParameters }, callback, errback) => {
