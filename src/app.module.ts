@@ -15,6 +15,7 @@ import { EventsModule } from './modules/events/events.module';
 import { RefundsModule } from './modules/refunds/refunds.module';
 import { StripeWebhookModule } from './modules/stripe-webhook/stripe-webhook.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { WebRTCModule } from './modules/webrtc/webrtc.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { AuthModule } from './modules/auth/auth.module';
     RefundsModule,
     StripeWebhookModule,
     AuthModule,
+    WebRTCModule,
     TypeOrmModule.forFeature([
       User,
       Plan,
